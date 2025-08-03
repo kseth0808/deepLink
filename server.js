@@ -16,24 +16,54 @@ app.get('/:slug', async (req, res) => {
     try {
         const { slug } = req.params;
         console.log(`🔎 Extracted slug from URL: ${slug}`);
+
         const link = await DeepLink.findOne({ slug });
-        console.log(`📦 Fetched deep link data from database:`, link);
         if (!link) {
             console.warn("❌ No link found for the provided slug.");
             return res.status(404).send("Link not found");
         }
+
         const userAgent = req.headers['user-agent'] || '';
+        const isAndroid = /android/i.test(userAgent);
+        const isIOS = /iphone|ipad|ipod/i.test(userAgent);
+
         console.log(`🧠 User-Agent detected: ${userAgent}`);
-        if (/android/i.test(userAgent)) {
-            console.log("📱 Android device detected. Redirecting to:", link.androidLink);
-            return res.redirect(link.androidLink);
-        } else if (/iphone|ipad|ipod/i.test(userAgent)) {
-            console.log("🍎 iOS device detected. Redirecting to:", link.iosLink);
-            return res.redirect(link.iosLink);
-        } else {
-            console.log("🖥️ Web or unknown device. Redirecting to:", link.webLink);
-            return res.redirect(link.webLink);
+
+        if (isAndroid) {
+            console.log("📱 Android device detected. Attempting app launch...");
+            return res.send(`
+                <html>
+                <head><title>Redirecting...</title></head>
+                <body>
+                    <p>Launching app...</p>
+                    <script>
+                        window.location.href = '${link.androidLink}';
+                        setTimeout(() => { window.location.href = '${link.webLink}'; }, 2000);
+                    </script>
+                </body>
+                </html>
+            `);
         }
+
+        if (isIOS) {
+            console.log("🍎 iOS device detected. Attempting app launch...");
+            return res.send(`
+                <html>
+                <head><title>Redirecting...</title></head>
+                <body>
+                    <p>Launching app...</p>
+                    <script>
+                        window.location.href = '${link.iosLink}';
+                        setTimeout(() => { window.location.href = '${link.webLink}'; }, 2000);
+                    </script>
+                </body>
+                </html>
+            `);
+        }
+
+        console.log("🖥️ Web or unknown device. Redirecting to web link directly.");
+        return res.redirect(link.webLink);
+
     } catch (err) {
         console.error("🔥 Redirect error occurred:", err);
         res.status(500).send("Internal Server Error");
