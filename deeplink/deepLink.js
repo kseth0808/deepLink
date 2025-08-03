@@ -18,7 +18,7 @@ export const createLink = async (req, res) => {
         await newLink.save();
         return res.status(201).json({
             message: "Link created successfully",
-            shortUrl: `${`http://localhost:3001`}/${slug}`
+            shortUrl: `https://deeplink-dj4i.onrender.com/${slug}`
         });
     } catch (err) {
         console.log("Create link error:", err);
