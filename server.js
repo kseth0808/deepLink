@@ -16,19 +16,19 @@ app.get('/:slug', async (req, res) => {
     try {
         const { slug } = req.params;
         console.log(`🔎 Extracted slug from URL: ${slug}`);
-
         const link = await DeepLink.findOne({ slug });
         if (!link) {
             console.warn("❌ No link found for the provided slug.");
             return res.status(404).send("Link not found");
         }
-
         const userAgent = req.headers['user-agent'] || '';
         const isAndroid = /android/i.test(userAgent);
         const isIOS = /iphone|ipad|ipod/i.test(userAgent);
-
+        const platform = isAndroid ? "Android" : isIOS ? "iOS" : "Web";
+        const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+        link.clicks.push({ ip, platform });
+        await link.save();
         console.log(`🧠 User-Agent detected: ${userAgent}`);
-
         if (isAndroid) {
             console.log("📱 Android device detected. Attempting app launch...");
             return res.send(`
@@ -60,7 +60,6 @@ app.get('/:slug', async (req, res) => {
                 </html>
             `);
         }
-
         console.log("🖥️ Web or unknown device. Redirecting to web link directly.");
         return res.redirect(link.webLink);
 
