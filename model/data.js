@@ -11,12 +11,24 @@ const deepLinkSchema = new mongoose.Schema({
         required: true,
     },
     androidLink: {
-        type: String,
-        required: true,
+        link: {
+            type: String,
+            required: true
+        },
+        fallback: {
+            type: String,
+            default: ""
+        }
     },
     iosLink: {
-        type: String,
-        required: true,
+        link: {
+            type: String,
+            required: true
+        },
+        fallback: {
+            type: String,
+            default: ""
+        }
     },
     webLink: {
         type: String,
@@ -32,7 +44,10 @@ const deepLinkSchema = new mongoose.Schema({
     },
     clicks: [
         {
-            timestamp: { type: Date, default: Date.now },
+            timestamp: {
+                type: Date,
+                default: Date.now
+            },
             ip: String,
             platform: String,
         }

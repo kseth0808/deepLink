@@ -1,0 +1,15 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "TEAMID1.com.app.one",
+        "paths": [ "*" ]
+      },
+      {
+        "appID": "TEAMID2.com.app.two",
+        "paths": [ "*" ]
+      }
+    ]
+  }
+}
