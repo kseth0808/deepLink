@@ -42,10 +42,32 @@ export const getSharedLinkData = async (req, res) => {
         link.clicks.push({ ip, platform });
         await link.save();
         if (isAndroid) {
-            return res.redirect(302, link.androidLink.link || link.androidLink.fallback);
+            return res.send(`
+                <html>
+                <body>
+                    <script>
+                        window.location = '${link.androidLink.link}';
+                        setTimeout(() => {
+                            window.location = '${link.androidLink.fallback || link.webLink}';
+                        }, 2000);
+                    </script>
+                </body>
+                </html>
+            `);
         }
         if (isIOS) {
-            return res.redirect(302, link.iosLink.link || link.iosLink.fallback);
+            return res.send(`
+                <html>
+                <body>
+                    <script>
+                        window.location = '${link.iosLink.link}';
+                        setTimeout(() => {
+                            window.location = '${link.iosLink.fallback || link.webLink}';
+                        }, 2000);
+                    </script>
+                </body>
+                </html>
+            `);
         }
         return res.redirect(link.webLink);
     } catch (err) {
