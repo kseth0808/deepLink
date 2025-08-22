@@ -13,9 +13,19 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "axios": "^1.11.0",
+    "cheerio": "^1.1.2",
+    "delay": "^6.0.0",
     "express": "^5.1.0",
+    "icecast-metadata-player": "^1.17.12",
+    "icy": "^2.1.0",
     "mongoose": "^8.17.0",
+    "node-fetch": "^3.3.2",
     "nodemon": "^3.1.10",
+    "puppeteer": "^24.16.2",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2",
+    "random-useragent": "^0.5.0",
     "uuid": "^11.1.0"
   }
 }

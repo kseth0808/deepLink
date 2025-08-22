@@ -1,0 +1,11 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "XNXHE58JZT.ai.voicetonotes.app",
+        "paths": [ "/data/*" ]
+      }
+    ]
+  }
+}

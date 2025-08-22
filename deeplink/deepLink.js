@@ -41,34 +41,6 @@ export const getSharedLinkData = async (req, res) => {
         const ip = req.ip;
         link.clicks.push({ ip, platform });
         await link.save();
-        if (isAndroid) {
-            return res.send(`
-                <html>
-                <body>
-                    <script>
-                        window.location = '${link.androidLink.link}';
-                        setTimeout(() => {
-                            window.location = '${link.androidLink.fallback || link.webLink}';
-                        }, 2000);
-                    </script>
-                </body>
-                </html>
-            `);
-        }
-        if (isIOS) {
-            return res.send(`
-                <html>
-                <body>
-                    <script>
-                        window.location = '${link.iosLink.link}';
-                        setTimeout(() => {
-                            window.location = '${link.iosLink.fallback || link.webLink}';
-                        }, 2000);
-                    </script>
-                </body>
-                </html>
-            `);
-        }
         return res.redirect(link.webLink);
     } catch (err) {
         console.error("🔥 Redirect error occurred:", err);
