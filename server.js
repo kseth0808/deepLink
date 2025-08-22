@@ -13,6 +13,13 @@ app.use('/data', apps);
 
 app.set('trust proxy', true);
 
+app.use('/.well-known', express.static(path.join(__dirname, 'public/.well-known'), {
+    setHeaders: (res) => {
+        res.setHeader('Content-Type', 'application/json');
+    }
+}));
+
+
 app.get('/', (req, res) => {
     res.send('Hello from MongoDB Atlas!');
 });
