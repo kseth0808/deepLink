@@ -41,7 +41,9 @@ export const getSharedLinkData = async (req, res) => {
         const ip = req.ip;
         link.clicks.push({ ip, platform });
         await link.save();
-        return res.redirect(link.webLink);
+        if (platform === "Web") {
+            return res.redirect(link.webLink);
+        }
     } catch (err) {
         console.error("🔥 Redirect error occurred:", err);
         res.status(500).send("Internal Server Error");
