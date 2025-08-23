@@ -3,7 +3,7 @@
     "relation": ["delegate_permission/common.handle_all_urls"],
     "target": {
       "namespace": "android_app",
-      "package_name": "com.vpn.androidapp",
+      "package_name": "ai.voicetonotes.mobileapp",
       "sha256_cert_fingerprints": [
         "0D:88:11:ED:9D:C2:4E:2E:81:5D:41:DF:93:AC:A4:19:20:1E:0D:C2:50:14:A7:AD:A3:5F:96:2D:E1:E9:7F:92"
       ]
